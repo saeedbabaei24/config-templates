@@ -1,0 +1,18 @@
+{% for server in host.config_context.hdata.ntp.servers | default([]) %}
+ntp server {{ server }}
+{% endfor %}
+
+{% for server in host.config_context.ciscodata.ntp.servers | default([]) %}
+ntp server {{ server }}
+{% endfor %}
+
+{% for server in host.config_context.alldata.ntp.servers | default([]) %}
+ntp server {{ server }}
+{% endfor %}
+
+{% if host.config_context.hdata.ntp.authentication is defined %}
+ntp authenticate
+{% for key in host.config_context.hdata.ntp.authentication.key %}
+ntp authentication-key {{ loop.index }} md5 {{ key }}
+{% endfor %}
+{% endif %}
